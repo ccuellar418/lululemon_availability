@@ -7,7 +7,30 @@ import pywinauto
 import os
 import sys
 import msvcrt
+import keyboard
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+# from webdriver_manager.chrome import ChromeDriverManager
 
+def driver_setup(url):
+    driver = webdriver.Firefox()
+    driver.get(url) 
+    driver.maximize_window()
+    time.sleep(5)
+    keyboard.press_and_release('esc')
+    time.sleep(1)
+    driver.execute_script("window.scrollTo(0, 450)")
+    # time.sleep(1)
+    #move the mouse 1/3 up from the bottom of the screen and 3/4 to the right of the screen
+    pyautogui.moveTo(1920*3/4, 1080*2/3)
+    #click the mouse
+    pyautogui.click()
+    # driver.find_element_by_class_name('button-15h2h').click()
+    # driver.find('class', 'button-15h2h lll-text-button add-to-bag-button_component_addToBagBtn__VXyHI purchase-methods_addToBag__a1Soq buttonPrimary-15h2h buttonBlock-15h2h').click()
+    time.sleep(5)
+    # driver.find('class', 'button-15h2h lll-text-button add-to-bag-button_component_addToBagBtn__VXyHI purchase-methods_addToBag__a1Soq buttonPrimary-15h2h buttonBlock-15h2h').click()
+    driver.get('https://shop.lululemon.com/shop/mybag')
 def auto_submit():
     print("Would you like to enable auto buy? (y/n): ", end='', flush=True)
     user_input = msvcrt.getch().decode('utf-8')
@@ -76,6 +99,7 @@ def retry(url, auto_buy):
             print("Product is in stock!")
             if auto_buy:
                 # Add code here to perform auto buy action
+                driver_setup(url)
                 print("Auto buy action performed")
             break
         else:
